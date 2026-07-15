@@ -1,8 +1,8 @@
 # HyCUBE (asynchoros)
 
-This folder includes RTL and testbench collateral derived from the [`HyCUBE project`](https://github.com/aditi3512/HyCUBE).
+RTL and testbench derived from the [`HyCUBE project`](https://github.com/aditi3512/HyCUBE).
 
-This copy is included to support the **HyCUBE asynchoros testcase** in this repository; minor local edits may exist for integration/reproducibility.
+This copy is included to support the **HyCUBE asynchoros testcase** in this repository; minor local edits exist only for the purpose of integration/reproducibility.
 
 ## RTL design 
 

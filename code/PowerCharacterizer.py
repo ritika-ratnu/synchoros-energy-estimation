@@ -13,7 +13,7 @@ def _safe_name(value: str) -> str:
     return re.sub(r'[^A-Za-z0-9_.-]+', '_', str(value)).strip('_')
 
 class PowerCharacterizer():
-    def __init__(self, block: SiLagoBlock, epsilon=0, window=0, min_iters=0) -> None:
+    def __init__(self, epsilon=0, window=0, min_iters=0) -> None:
         self.epsilon = epsilon
         self.window = window
         self.min_iters = min_iters
@@ -29,7 +29,6 @@ class PowerCharacterizer():
         activity = resource.get("count", 1)
         return base_power * activity
 
-
     def characterize(self)-> None:
         N = block.valid_neighbor_topology
         for neighbor in N:
@@ -44,6 +43,12 @@ class PowerCharacterizer():
                     converged = False
                     while not converged:
                         Pinst = get_power(D,resource, op)
+    
+    def run(self, ops, arch)-> None:
+        with open(arch, "r") as f:
+            data = json.load(f)
+        block = SiLagoBlock.load(data)
+
 #                        Pr_op = update_running_average(Pr_op, Pinst, k)
 #                        k += 1
 #                        converged = tracker.update(Pinst, Pr_op)
@@ -71,10 +76,6 @@ class PowerCharacterizer():
 #def update_running_average(prev_avg: float, new_value: float, k: int) -> float:
 #    return (k * prev_avg + new_value) / (k + 1)
 
-
-with open("./Input/SiLagoBlocks/SiLagoBlockForHyCUBE.json", "r") as f:
-    data = json.load(f)
-block = SiLagoBlock.load(data)
-
-power_char = PowerCharacterizer(block)
-power_char.characterize()
+#    
+#    power_char = PowerCharacterizer(block)
+#    power_char.characterize()

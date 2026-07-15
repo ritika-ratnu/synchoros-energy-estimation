@@ -1,16 +1,17 @@
-from __future__ import annotations
 import sys
 import argparse
-import json
 import logging
-from pathlib import Path
-from typing import Dict, Tuple, List
-from collections import deque
+from PowerCharacterizer import PowerCharacterizer
 
+def run(args):
+    ops = args.ops
+    arch = args.arch
+    power_characterizer = PowerCharacterizer()
+    power_characterizer.run(ops, arch)
 
 def main():
     parser = argparse.ArgumentParser()
-    for arg in ("isa", "ops", "arch"):
+    for arg in ("ops", "arch"):
         parser.add_argument(f"--{arg}", required=True)
     
     run(parser.parse_args())
