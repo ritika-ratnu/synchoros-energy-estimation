@@ -11,7 +11,9 @@ Artifact for **Synchoros** energy characterization/estimation of CGRA fabrics.
   - `ADRES/`: [B. Mei, et al, “ADRES: An architecture with tightly coupled VLIW processor and coarse-grained reconfigurable matrix,” FPL 2003](https://link.springer.com/chapter/10.1007/978-3-540-45234-8_7)
   - `DRRA/` : [D. Pudi, et al, "Implementation of Image Averaging on DRRA and DiMArch Architectures](https://ieeexplore-ieee-org.focus.lib.kth.se/document/10261953)   
   - `HyCUBE/` : https://www.comp.nus.edu.sg/~tulika/DAC17.pdf 
-
+  The tests are split into:
+  - `asynchoros/` : RTL design and testbench for asynchoros CGRA fabric. 
+  - `synchoros/`  : RTL design and testbench for synchoros blocks in “valid-neighbour” configurations.
 
 - **`sota/`**: Comparion with two state-of-the-art estimation methodologies:
   - `accelergy/` : https://accelergy.mit.edu/paper.pdf
