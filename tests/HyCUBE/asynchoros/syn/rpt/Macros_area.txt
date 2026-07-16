@@ -1,0 +1,5 @@
+Assuming 28 nm bitcell area of 0.120 μm
+Control Memory Area : 16 (number) x 16 (depth) x 64(width) x 0.12 = 1966.08 um2
+Data Memory: 4 (number) x 128(depth) x 32 (width) x 0.12 = 1966.08 um2
+Assumed Overhead: 0.4-0.5%
+Total memory area: 5614.49%

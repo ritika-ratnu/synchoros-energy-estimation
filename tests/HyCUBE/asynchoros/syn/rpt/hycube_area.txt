@@ -1,0 +1,33 @@
+Warning: Design 'hycube' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : area
+Design : hycube
+Version: T-2022.03-SP2
+Date   : Wed Jul 15 21:04:27 2026
+****************************************
+
+Library(s) Used:
+
+    tcbn28hpcbwp30p140ssg0p81v125c (File: /opt/stdc_libs/28HPC/stclib/9-track/30p140/nvt/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn28hpcbwp30p140_100a/tcbn28hpcbwp30p140ssg0p81v125c.db)
+
+Number of ports:                        35930
+Number of nets:                        130596
+Number of cells:                        92685
+Number of combinational cells:          80761
+Number of sequential cells:             11683
+Number of macros/black boxes:               0
+Number of buf/inv:                      11483
+Number of references:                      74
+
+Combinational area:              59715.053851
+Buf/Inv area:                     2950.542041
+Noncombinational area:           22046.849833
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                 81761.903684
+Total area:                 undefined
+
+Information: This design contains black box (unknown) components. (RPT-8)
+1
