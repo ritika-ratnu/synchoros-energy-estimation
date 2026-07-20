@@ -1,0 +1,314 @@
+--- pkg.sv changes ---
+--- /mnt/data/pkg_original.sv	2026-07-19 06:28:09.296936357 +0000
++++ /mnt/data/pkg.sv	2026-07-19 06:28:09.304143663 +0000
+@@ -3,7 +3,7 @@
+   // Constants chosen to match the supplied figure and simple_alu interface.
+   localparam int DATA_W        = 32;
+   localparam int TOKEN_W       = 33;
+-  localparam int NUM_PORTS     = 5;
++  localparam int NUM_PORTS     = 10;
+   localparam int RF_DEPTH      = 16;
+   localparam int CONTEXT_DEPTH = 16;
+   localparam int OP_W          = 6;
+
+--- tile.sv changes ---
+--- /mnt/data/tile_original.sv	2026-07-19 06:31:13.653465129 +0000
++++ /mnt/data/tile.sv	2026-07-19 06:31:25.950927754 +0000
+@@ -27,7 +27,7 @@
+   import pkg::*;
+ 
+   logic [TILE_CFG_W-1:0] config_word;
+-  tile_cfg_t              config;
++  tile_cfg_t              tile_config;
+ 
+   token_t predicate_rf_data;
+   token_t lhs_rf_data;
+@@ -41,7 +41,7 @@
+   token_t output_data_q;
+   logic [NUM_PORTS-1:0] output_enable_q;
+ 
+-  assign config = config_word;
++  assign tile_config = config_word;
+ 
+   config_mem #(
+     .WORD_W (TILE_CFG_W),
+@@ -63,12 +63,12 @@
+   ) u_reg_file (
+     .clk_i                  (clk_i),
+     .rst_ni                 (rst_ni),
+-    .write_enable_i         (execute_enable_i && config.rf_write_enable),
+-    .write_addr_i           (config.rf_write_addr),
++    .write_enable_i         (execute_enable_i && tile_config.rf_write_enable),
++    .write_addr_i           (tile_config.rf_write_addr),
+     .write_data_i           (alu_result),
+-    .predicate_read_addr_i  (config.predicate_rf_addr),
+-    .lhs_read_addr_i        (config.lhs_rf_addr),
+-    .rhs_read_addr_i        (config.rhs_rf_addr),
++    .predicate_read_addr_i  (tile_config.predicate_rf_addr),
++    .lhs_read_addr_i        (tile_config.lhs_rf_addr),
++    .rhs_read_addr_i        (tile_config.rhs_rf_addr),
+     .predicate_read_data_o  (predicate_rf_data),
+     .lhs_read_data_o        (lhs_rf_data),
+     .rhs_read_data_o        (rhs_rf_data)
+@@ -92,7 +92,7 @@
+         SRC_LINK_9:    select_source = port_in_i[9];
+         SRC_RF:        select_source = rf_data;
+         SRC_OUT_REG:   select_source = output_data_q;
+-        SRC_IMMEDIATE: select_source = config.immediate;
++        SRC_IMMEDIATE: select_source = tile_config.immediate;
+         SRC_ZERO:      select_source = '0;
+         SRC_ONE:       select_source = {{(TOKEN_W-1){1'b0}}, 1'b1};
+         default:       select_source = '0;
+@@ -101,9 +101,9 @@
+   endfunction
+ 
+   always_comb begin
+-    predicate_value = select_source(config.predicate_sel, predicate_rf_data);
+-    lhs_value       = select_source(config.lhs_sel,       lhs_rf_data);
+-    rhs_value       = select_source(config.rhs_sel,       rhs_rf_data);
++    predicate_value = select_source(tile_config.predicate_sel, predicate_rf_data);
++    lhs_value       = select_source(tile_config.lhs_sel,       lhs_rf_data);
++    rhs_value       = select_source(tile_config.rhs_sel,       rhs_rf_data);
+   end
+ 
+   // Figure mapping:
+@@ -117,8 +117,8 @@
+     .op_predicate (predicate_value[DATA_W-1:0]),
+     .op_LHS       (lhs_value),
+     .op_RHS       (rhs_value),
+-    .op_SHIFT     (config.immediate),
+-    .operation    (config.operation),
++    .op_SHIFT     (tile_config.immediate),
++    .operation    (tile_config.operation),
+     .result       (alu_result)
+   );
+ 
+@@ -130,9 +130,9 @@
+     .rst_ni         (rst_ni),
+     .clear_enable_i (clear_outputs_i),
+     .advance_i      (execute_enable_i),
+-    .write_enable_i (config.out_write_enable),
++    .write_enable_i (tile_config.out_write_enable),
+     .write_data_i   (alu_result),
+-    .write_mask_i   (config.out_enable_mask),
++    .write_mask_i   (tile_config.out_enable_mask),
+     .data_o         (output_data_q),
+     .enable_mask_o  (output_enable_q)
+   );
+@@ -152,17 +152,15 @@
+ `ifndef SYNTHESIS
+   always_ff @(posedge clk_i) begin
+     if (rst_ni && execute_enable_i) begin
+-      assert (config.predicate_sel != SRC_RESERVED)
++      assert (tile_config.predicate_sel != SRC_RESERVED)
+         else $error("Reserved predicate source in context %0d", context_addr_i);
+-      assert (config.lhs_sel != SRC_RESERVED)
++      assert (tile_config.lhs_sel != SRC_RESERVED)
+         else $error("Reserved LHS source in context %0d", context_addr_i);
+-      assert (config.rhs_sel != SRC_RESERVED)
++      assert (tile_config.rhs_sel != SRC_RESERVED)
+         else $error("Reserved RHS source in context %0d", context_addr_i);
+ 
+       if (cfg_write_enable_i && (cfg_write_addr_i == context_addr_i)) begin
+-        $warning("Executing and rewriting context %0d on the same edge; "
+-                 "read-during-write behavior is implementation-dependent",
+-                 context_addr_i);
++        $warning("Executing and rewriting context %0d on the same edge; read-during-write behavior is implementation-dependent", context_addr_i);
+       end
+     end
+   end
+
+--- simple_alu.sv changes ---
+--- /mnt/data/simple_alu_original.sv	2026-07-19 06:32:50.138582315 +0000
++++ /mnt/data/simple_alu.sv	2026-07-19 06:32:50.146438938 +0000
+@@ -1,63 +1,70 @@
+-// The ALU supplied by the user, reformatted only. Its ports remain fixed at
+-// 32 payload bits plus one extra input/output bit.
++// 32-bit payload ALU with one extra token/guard bit on data operands/results.
++// The payload behavior matches the supplied ALU; result[32] is intentionally
++// zero for ALU-generated values.  The array wrapper can recreate token-valid on
++// an enabled network route.
+ module simple_alu(op_predicate, op_LHS, op_RHS, op_SHIFT, operation, result);
+ 
+   parameter width = 32;
+ 
+-  input [32:0] op_RHS;
+-  input [32:0] op_LHS;
+-  input [32:0] op_SHIFT;
+-  input [31:0] op_predicate;
+-  input [5:0] operation;
++  input  [32:0] op_RHS;
++  input  [32:0] op_LHS;
++  input  [32:0] op_SHIFT;
++  input  [31:0] op_predicate;
++  input  [5:0]  operation;
+ 
+-  output [32:0] result;
+-  reg [32:0] result;
++  output reg [32:0] result;
+ 
+   wire [32:0] op_2;
++  logic signed [63:0] multiply_result;
++
+   assign op_2 = operation[5] ? op_SHIFT : op_LHS;
+ 
+   always_comb begin : alu
++    multiply_result = $signed(op_RHS[31:0]) * $signed(op_2[31:0]);
++
+     case (operation[4:0])
+-      5'b00000: result = {32{1'b0}}; // nop
+-      5'b00001: result = op_RHS[31:0] + op_2[31:0]; // add
+-      5'b00010: result = op_RHS[31:0] - op_2[31:0]; // sub
+-      5'b00011: result = $signed(op_RHS[31:0]) * $signed(op_2[31:0]); // mult
+-      // 5'b00101: result = $signed(op_RHS[31:0]) / $signed(op_2[31:0]);
+-      5'b01000: result = op_RHS[31:0] << op_2[31:0]; // logical left shift
+-      5'b01001: result = op_RHS[31:0] >> op_2[31:0]; // logical right shift
+-      5'b01010: result = op_RHS[31:0] >>> op_2[31:0]; // intended arithmetic right shift
+-      5'b01011: result = op_RHS[31:0] & op_2[31:0];
+-      5'b01100: result = op_RHS[31:0] | op_2[31:0];
+-      5'b01101: result = op_RHS[31:0] ^ op_2[31:0];
++      5'b00000: result = 33'b0; // nop
++      5'b00001: result = {1'b0, (op_RHS[31:0] + op_2[31:0])}; // add
++      5'b00010: result = {1'b0, (op_RHS[31:0] - op_2[31:0])}; // sub
++      5'b00011: result = {1'b0, multiply_result[31:0]}; // multiply, low word
++
++      5'b01000: result = {1'b0, (op_RHS[31:0] << op_2[4:0])};
++      5'b01001: result = {1'b0, (op_RHS[31:0] >> op_2[4:0])};
++      5'b01010: result = {1'b0,
++                          ($signed(op_RHS[31:0]) >>> op_2[4:0])};
++      5'b01011: result = {1'b0, (op_RHS[31:0] & op_2[31:0])};
++      5'b01100: result = {1'b0, (op_RHS[31:0] | op_2[31:0])};
++      5'b01101: result = {1'b0, (op_RHS[31:0] ^ op_2[31:0])};
+ 
+       5'b10000: begin
+         if (operation[5] == 1'b0) begin
+           if (op_LHS[32] == 1'b1)
+-            result = op_LHS[31:0];
++            result = {1'b0, op_LHS[31:0]};
+           else if (op_RHS[32] == 1'b1)
+-            result = op_RHS[31:0];
++            result = {1'b0, op_RHS[31:0]};
+           else
+-            result = {32{1'b0}};
++            result = 33'b0;
+         end else begin
+-          result = op_SHIFT[31:0];
++          result = {1'b0, op_SHIFT[31:0]};
+         end
+       end
+ 
+       5'b10001: begin
+         if (operation[5] == 1'b0)
+-          result = op_RHS[31:0];
++          result = {1'b0, op_RHS[31:0]};
+         else
+-          result = op_SHIFT[31:0];
++          result = {1'b0, op_SHIFT[31:0]};
+       end
+ 
+-      5'b10010: result = {{31{1'b0}}, (op_RHS[31:0] == op_2[31:0])};
+-      5'b10011: result = {{31{1'b0}},
++      5'b10010: result = {32'b0, (op_RHS[31:0] == op_2[31:0])};
++      5'b10011: result = {32'b0,
+                           ($signed(op_RHS[31:0]) < $signed(op_2[31:0]))};
+-      5'b10100: result = op_predicate[31:0] | op_RHS[31:0] | op_2[31:0];
+-      5'b10101: result = {{31{1'b0}},
++      5'b10100: result = {1'b0,
++                          (op_predicate[31:0] | op_RHS[31:0] | op_2[31:0])};
++      5'b10101: result = {32'b0,
+                           ($signed(op_2[31:0]) < $signed(op_RHS[31:0]))};
+-      5'b11111: result = op_2[31:0];
+-      default:  result = {32{1'b0}};
++      5'b11111: result = {1'b0, op_2[31:0]};
++      default:  result = 33'b0;
+     endcase
+   end
+ 
+
+--- config_mem.sv changes ---
+--- /mnt/data/config_mem_original.sv	2026-07-19 06:32:50.154987646 +0000
++++ /mnt/data/config_mem.sv	2026-07-19 06:32:51.262158548 +0000
+@@ -18,7 +18,7 @@
+   // Configuration is intentionally not reset. Program every context that can
+   // execute before asserting execute_enable_i at the tile level.
+   always_ff @(posedge clk_i) begin
+-    if (write_enable_i && (write_addr_i < DEPTH)) begin
++    if (write_enable_i && (int'(write_addr_i) < DEPTH)) begin
+       mem[write_addr_i] <= write_data_i;
+     end
+   end
+@@ -26,7 +26,7 @@
+   // Asynchronous context read supports one configuration per execute cycle.
+   // A synchronous SRAM implementation requires a fetch/prefetch stage.
+   always_comb begin
+-    if (read_addr_i < DEPTH) begin
++    if (int'(read_addr_i) < DEPTH) begin
+       read_data_o = mem[read_addr_i];
+     end else begin
+       read_data_o = '0;
+@@ -36,7 +36,7 @@
+ `ifndef SYNTHESIS
+   always_ff @(posedge clk_i) begin
+     if (write_enable_i) begin
+-      assert (write_addr_i < DEPTH)
++      assert (int'(write_addr_i) < DEPTH)
+         else $error("Configuration address %0d is outside depth %0d",
+                     write_addr_i, DEPTH);
+     end
+
+--- reg_file.sv changes ---
+--- /mnt/data/reg_file_original.sv	2026-07-19 06:32:50.164250067 +0000
++++ /mnt/data/reg_file.sv	2026-07-19 06:32:56.477514825 +0000
+@@ -26,11 +26,11 @@
+   // Read-during-write uses the old value for the calculation ending at the
+   // active edge; the new value is visible after that edge.
+   always_comb begin
+-    predicate_read_data_o = (predicate_read_addr_i < DEPTH) ?
++    predicate_read_data_o = (int'(predicate_read_addr_i) < DEPTH) ?
+                             mem[predicate_read_addr_i] : '0;
+-    lhs_read_data_o       = (lhs_read_addr_i < DEPTH) ?
++    lhs_read_data_o       = (int'(lhs_read_addr_i) < DEPTH) ?
+                             mem[lhs_read_addr_i] : '0;
+-    rhs_read_data_o       = (rhs_read_addr_i < DEPTH) ?
++    rhs_read_data_o       = (int'(rhs_read_addr_i) < DEPTH) ?
+                             mem[rhs_read_addr_i] : '0;
+   end
+ 
+@@ -39,7 +39,7 @@
+       for (index = 0; index < DEPTH; index = index + 1) begin
+         mem[index] <= '0;
+       end
+-    end else if (write_enable_i && (write_addr_i < DEPTH)) begin
++    end else if (write_enable_i && (int'(write_addr_i) < DEPTH)) begin
+       mem[write_addr_i] <= write_data_i;
+     end
+   end
+@@ -47,7 +47,7 @@
+ `ifndef SYNTHESIS
+   always_ff @(posedge clk_i) begin
+     if (rst_ni && write_enable_i) begin
+-      assert (write_addr_i < DEPTH)
++      assert (int'(write_addr_i) < DEPTH)
+         else $error("Register-file address %0d is outside depth %0d",
+                     write_addr_i, DEPTH);
+     end
+
+--- controller.sv changes ---
+--- /mnt/data/controller_original.sv	2026-07-19 06:32:50.173461534 +0000
++++ /mnt/data/controller.sv	2026-07-19 06:32:51.262748862 +0000
+@@ -21,13 +21,13 @@
+     if (!rst_ni) begin
+       context_addr_o <= '0;
+     end else if (set_context_i) begin
+-      if (set_context_addr_i < DEPTH) begin
++      if (int'(set_context_addr_i) < DEPTH) begin
+         context_addr_o <= set_context_addr_i;
+       end else begin
+         context_addr_o <= '0;
+       end
+     end else if (execute_enable_o) begin
+-      if (context_addr_o == DEPTH-1) begin
++      if (int'(context_addr_o) == DEPTH-1) begin
+         context_addr_o <= '0;
+       end else begin
+         context_addr_o <= context_addr_o + 1'b1;
