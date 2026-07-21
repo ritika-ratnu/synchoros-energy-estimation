@@ -13,17 +13,6 @@ Artifact for **Synchoros** energy characterization/estimation of CGRA fabrics.
   - `HyCUBE/` : https://www.comp.nus.edu.sg/~tulika/DAC17.pdf
 
 
-  The tests are split into:
-  - `asynchoros/` : RTL design and testbench for asynchoros CGRA fabric. 
-  - `synchoros/`  : RTL design and testbench for synchoros blocks in “valid-neighbour” configurations.
-
-
-- **`sota/`**: Comparion with two state-of-the-art estimation methodologies:
-  - `accelergy/` : https://accelergy.mit.edu/paper.pdf
-  - `cgra_eam/`  : https://research.tue.nl/en/publications/cgra-eam-rapid-energy-and-area-estimation-for-coarse-grained-reco/
-
-- **`paper/`**: LaTeX source for paper.
-
 
 ## Quickstart
 ```bash
