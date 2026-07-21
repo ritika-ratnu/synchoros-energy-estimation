@@ -1,0 +1,30 @@
+ 
+****************************************
+Report : area
+Design : ADRES
+Version: T-2022.03-SP2
+Date   : Wed Jul 22 00:06:26 2026
+****************************************
+
+Library(s) Used:
+
+    tcbn28hpcbwp30p140ssg0p81v125c (File: /opt/stdc_libs/28HPC/stclib/9-track/30p140/nvt/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn28hpcbwp30p140_100a/tcbn28hpcbwp30p140ssg0p81v125c.db)
+
+Number of ports:                        23200
+Number of nets:                         92865
+Number of cells:                        73977
+Number of combinational cells:          62942
+Number of sequential cells:             10937
+Number of macros/black boxes:               0
+Number of buf/inv:                       7258
+Number of references:                      60
+
+Combinational area:              43175.412016
+Buf/Inv area:                     2095.128002
+Noncombinational area:           24770.464776
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                 67945.876792
+Total area:                 undefined
+1

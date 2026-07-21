@@ -4,5 +4,6 @@ reg_file.sv
 output_register.sv
 simple_alu.sv
 tile.sv
-controller.sv
+global_controller.sv
+data_mem.sv
 ADRES.sv

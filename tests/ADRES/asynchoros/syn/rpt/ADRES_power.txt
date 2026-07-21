@@ -1,0 +1,229 @@
+Loading db file '/opt/stdc_libs/28HPC/stclib/9-track/30p140/nvt/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn28hpcbwp30p140_100a/tcbn28hpcbwp30p140ssg0p81v125c.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+Warning: Design has unannotated black box outputs. (PWR-428)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : ADRES
+Version: T-2022.03-SP2
+Date   : Wed Jul 22 00:06:25 2026
+****************************************
+
+
+Library(s) Used:
+
+    tcbn28hpcbwp30p140ssg0p81v125c (File: /opt/stdc_libs/28HPC/stclib/9-track/30p140/nvt/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn28hpcbwp30p140_100a/tcbn28hpcbwp30p140ssg0p81v125c.db)
+
+
+Operating Conditions: ssg0p81v125c   Library: tcbn28hpcbwp30p140ssg0p81v125c
+Wire Load Model Mode: segmented
+
+Design        Wire Load Model            Library
+------------------------------------------------
+ADRES                  ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+global_controller_DEPTH256_ADDR_W8
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_0                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_0
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_0   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_0
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_1                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_2                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_3                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_4                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_5                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_6                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_7                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_8                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_9                 ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_10                ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_11                ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_12                ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_13                ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_14                ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+tile_15                ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_1
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_2
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_3
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_4
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_5
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_6
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_7
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_8
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_9
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_10
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_11
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_12
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_13
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_14
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+reg_file_DATA_W33_DEPTH16_ADDR_W4_15
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_1   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_2   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_3   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_4   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_5   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_6   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_7   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_8   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_9   ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_10  ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_11  ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_12  ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_13  ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_14  ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_15  ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_1
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_2
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_3
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_4
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_5
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_6
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_7
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_8
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_9
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_10
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_11
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_12
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_13
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_14
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+output_register_DATA_W33_NUM_PORTS10_15
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_1_DW01_addsub_0
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_1_DW01_cmp6_0
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_2_DW01_addsub_0_DW01_addsub_1
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_2_DW01_cmp6_0_DW01_cmp6_1
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_3_DW01_addsub_0_DW01_addsub_2
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_3_DW01_cmp6_0_DW01_cmp6_2
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_4_DW01_addsub_0_DW01_addsub_3
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_4_DW01_cmp6_0_DW01_cmp6_3
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_5_DW01_addsub_0_DW01_addsub_4
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_5_DW01_cmp6_0_DW01_cmp6_4
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_6_DW01_addsub_0_DW01_addsub_5
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_6_DW01_cmp6_0_DW01_cmp6_5
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_7_DW01_addsub_0_DW01_addsub_6
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_7_DW01_cmp6_0_DW01_cmp6_6
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_8_DW01_addsub_0_DW01_addsub_7
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_8_DW01_cmp6_0_DW01_cmp6_7
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_9_DW01_addsub_0_DW01_addsub_8
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_9_DW01_cmp6_0_DW01_cmp6_8
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_10_DW01_addsub_0_DW01_addsub_9
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_10_DW01_cmp6_0_DW01_cmp6_9
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_11_DW01_addsub_0_DW01_addsub_10
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_11_DW01_cmp6_0_DW01_cmp6_10
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_12_DW01_addsub_0_DW01_addsub_11
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_12_DW01_cmp6_0_DW01_cmp6_11
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_13_DW01_addsub_0_DW01_addsub_12
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_13_DW01_cmp6_0_DW01_cmp6_12
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_14_DW01_addsub_0_DW01_addsub_13
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_14_DW01_cmp6_0_DW01_cmp6_13
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_15_DW01_addsub_0_DW01_addsub_14
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_15_DW01_cmp6_0_DW01_cmp6_14
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_0_DW01_addsub_0_DW01_addsub_15
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+simple_alu_width32_0_DW01_cmp6_0_DW01_cmp6_15
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+global_controller_DEPTH256_ADDR_W8_DW01_inc_0_DW01_inc_16
+                       ZeroWireload      tcbn28hpcbwp30p140ssg0p81v125c
+
+
+Global Operating Voltage = 0.81 
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+Attributes
+----------
+i - Including register clock pin internal power
+
+
+  Cell Internal Power  =   2.6086 mW   (63%)
+  Net Switching Power  =   1.5118 mW   (37%)
+                         ---------
+Total Dynamic Power    =   4.1204 mW  (100%)
+
+Cell Leakage Power     =   2.5040 mW
+
+Information: report_power power group summary does not include estimated clock tree power. (PWR-789)
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000        8.4405e-02            0.0000        8.4405e-02  (   1.27%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)  i
+register           0.0000            0.0000            0.0000            0.0000  (   0.00%)
+sequential         1.5491        5.9811e-04        9.5754e+05            2.5073  (  37.85%)
+combinational      1.0595            1.4267        1.5465e+06            4.0327  (  60.88%)
+--------------------------------------------------------------------------------------------------
+Total              2.6086 mW         1.5117 mW     2.5040e+06 nW         6.6244 mW
+1

@@ -26,7 +26,7 @@ module simple_alu(op_predicate, op_LHS, op_RHS, op_SHIFT, operation, result);
       5'b00000: result = 33'b0; // nop
       5'b00001: result = {1'b0, (op_RHS[31:0] + op_2[31:0])}; // add
       5'b00010: result = {1'b0, (op_RHS[31:0] - op_2[31:0])}; // sub
-      5'b00011: result = {1'b0, multiply_result[31:0]}; // multiply, low word
+      //5'b00011: result = {1'b0, multiply_result[31:0]}; // multiply, low word
 
       5'b01000: result = {1'b0, (op_RHS[31:0] << op_2[4:0])};
       5'b01001: result = {1'b0, (op_RHS[31:0] >> op_2[4:0])};

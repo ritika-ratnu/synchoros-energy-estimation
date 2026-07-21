@@ -1,5 +1,5 @@
 module ADRES #(
-  parameter int DMEM_WORDS_PER_BANK = 1024,
+  parameter int DMEM_WORDS_PER_BANK = 256,
   parameter int DMEM_ADDR_W =
       (DMEM_WORDS_PER_BANK <= 1) ? 1 : $clog2(DMEM_WORDS_PER_BANK),
 
@@ -99,9 +99,6 @@ module ADRES #(
   logic [2:0] row_pick [0:ROWS-1]; // {valid, winning column[1:0]}
   logic [2:0] mem_pick [0:COLS-1]; // {valid, winning row[1:0]}
 
-  // Four physically independent data-memory banks, one beneath each column.
-  logic [DATA_W-1:0] dmem [0:COLS-1][0:DMEM_WORDS_PER_BANK-1];
-
   // Per-tile protocol state and persistent response mailbox.
   logic [TILES-1:0] store_pending_q;
   logic [DMEM_ADDR_W-1:0] store_addr_q [0:TILES-1];
@@ -110,6 +107,12 @@ module ADRES #(
   logic endpoint_stall;
   logic dmem_engine_idle;
   logic dmem_host_fire;
+
+  // Array-side ports for the separately instantiated data-memory IP.
+  logic [COLS-1:0]                  dmem_bank_write_enable;
+  logic [COLS-1:0][DMEM_ADDR_W-1:0] dmem_bank_addr;
+  logic [COLS-1:0][DATA_W-1:0]      dmem_bank_wdata;
+  logic [COLS-1:0][DATA_W-1:0]      dmem_bank_rdata;
 
   // ---------------------------------------------------------------------------
   // Small helper functions
@@ -453,56 +456,90 @@ module ADRES #(
                         !(|store_pending_q) &&
                         !(|row_route_need) && !(|mem_route_need);
 
+  // Translate the selected LSU operations into the four independent bank
+  // ports of the data-memory IP.  Read addresses are presented continuously;
+  // writes are pulsed only for the second flit of a store sequence.
+  always_comb begin : p_dmem_bank_ports
+    integer mem_col;
+    logic [TILE_ID_W-1:0] selected_tile;
+
+    dmem_bank_write_enable = '0;
+    dmem_bank_addr         = '0;
+    dmem_bank_wdata        = '0;
+
+    for (mem_col = 0; mem_col < COLS; mem_col = mem_col + 1) begin
+      if (mem_pick[mem_col][2]) begin
+        selected_tile = {mem_pick[mem_col][1:0], mem_col[1:0]};
+
+        if (store_pending_q[selected_tile]) begin
+          dmem_bank_write_enable[mem_col] = 1'b1;
+          dmem_bank_addr[mem_col] = store_addr_q[selected_tile];
+          dmem_bank_wdata[mem_col] =
+              memq_data_q[selected_tile][DATA_W-1:0];
+        end else begin
+          dmem_bank_addr[mem_col] =
+              memq_data_q[selected_tile][DMEM_ADDR_W-1:0];
+        end
+      end
+    end
+  end
+
+  adres_data_memory #(
+    .BANKS          (COLS),
+    .WORDS_PER_BANK (DMEM_WORDS_PER_BANK),
+    .ADDR_W         (DMEM_ADDR_W),
+    .DATA_W         (DATA_W)
+  ) u_data_memory (
+    .clk_i               (clk_i),
+    .rst_ni              (rst_ni),
+    .bank_write_enable_i (dmem_bank_write_enable),
+    .bank_addr_i         (dmem_bank_addr),
+    .bank_wdata_i        (dmem_bank_wdata),
+    .bank_rdata_o        (dmem_bank_rdata),
+    .host_valid_i        (dmem_host_fire),
+    .host_write_i        (dmem_host_write_i),
+    .host_bank_i         (dmem_host_bank_i),
+    .host_addr_i         (dmem_host_addr_i),
+    .host_wdata_i        (dmem_host_wdata_i),
+    .host_rvalid_o       (dmem_host_rvalid_o),
+    .host_rdata_o        (dmem_host_rdata_o)
+  );
+
+  // The serialized two-flit store protocol and persistent response mailboxes
+  // remain in ADRES; only the physical memory storage is moved into the IP.
   integer mem_col;
   integer mem_reset_tile;
-  always_ff @(posedge clk_i or negedge rst_ni) begin : p_data_memory
+  always_ff @(posedge clk_i or negedge rst_ni) begin : p_data_memory_protocol
     logic [TILE_ID_W-1:0] selected_tile;
 
     if (!rst_ni) begin
-      store_pending_q    <= '0;
-      dmem_host_rvalid_o <= 1'b0;
-      dmem_host_rdata_o  <= '0;
+      store_pending_q <= '0;
 
       for (mem_reset_tile = 0; mem_reset_tile < TILES;
            mem_reset_tile = mem_reset_tile + 1) begin
         store_addr_q[mem_reset_tile]   <= '0;
         mem_response_q[mem_reset_tile] <= '0;
       end
-    end else begin
-      dmem_host_rvalid_o <= 1'b0;
+    end else if (!dmem_host_fire) begin
+      for (mem_col = 0; mem_col < COLS; mem_col = mem_col + 1) begin
+        if (mem_pick[mem_col][2]) begin
+          selected_tile = {mem_pick[mem_col][1:0], mem_col[1:0]};
 
-      if (dmem_host_fire) begin
-        if (dmem_host_write_i) begin
-          dmem[dmem_host_bank_i][dmem_host_addr_i] <= dmem_host_wdata_i;
-        end else begin
-          dmem_host_rdata_o  <= dmem[dmem_host_bank_i][dmem_host_addr_i];
-          dmem_host_rvalid_o <= 1'b1;
-        end
-      end else begin
-        for (mem_col = 0; mem_col < COLS; mem_col = mem_col + 1) begin
-          if (mem_pick[mem_col][2]) begin
-            selected_tile = {mem_pick[mem_col][1:0], mem_col[1:0]};
-
-            if (store_pending_q[selected_tile]) begin
-              // Second flit of a write sequence.
-              dmem[mem_col][store_addr_q[selected_tile]] <=
-                  memq_data_q[selected_tile][DATA_W-1:0];
-              store_pending_q[selected_tile] <= 1'b0;
-              mem_response_q[selected_tile]  <=
-                  {1'b1, {DATA_W{1'b0}}};
-            end else if (memq_data_q[selected_tile][DATA_W-1]) begin
-              // First flit of a write sequence.  payload[31] is the write flag.
-              store_pending_q[selected_tile] <= 1'b1;
-              store_addr_q[selected_tile] <=
-                  memq_data_q[selected_tile][DMEM_ADDR_W-1:0];
-              mem_response_q[selected_tile] <= '0;
-            end else begin
-              // Single-flit read request.  The response mailbox is persistent.
-              mem_response_q[selected_tile] <=
-                  {1'b1,
-                   dmem[mem_col]
-                       [memq_data_q[selected_tile][DMEM_ADDR_W-1:0]]};
-            end
+          if (store_pending_q[selected_tile]) begin
+            // Second flit of a write sequence. The IP performs the write.
+            store_pending_q[selected_tile] <= 1'b0;
+            mem_response_q[selected_tile]  <=
+                {1'b1, {DATA_W{1'b0}}};
+          end else if (memq_data_q[selected_tile][DATA_W-1]) begin
+            // First flit of a write sequence. payload[31] is the write flag.
+            store_pending_q[selected_tile] <= 1'b1;
+            store_addr_q[selected_tile] <=
+                memq_data_q[selected_tile][DMEM_ADDR_W-1:0];
+            mem_response_q[selected_tile] <= '0;
+          end else begin
+            // Single-flit read request. The IP read port is asynchronous.
+            mem_response_q[selected_tile] <=
+                {1'b1, dmem_bank_rdata[mem_col]};
           end
         end
       end

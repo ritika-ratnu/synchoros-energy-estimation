@@ -1,0 +1,6 @@
+Assuming 28 nm bitcell area of 0.120 μm
+Global controller Area : 256(depth) x 96(for width 79) x 0.12 = 2950 um2
+Control Memory Area : 16 (number) x 16 (depth) x 96(for width 79) x 0.12 = 2950 um2
+Data Memory: 4 (number) x 256(depth) x 32 (width) x 0.12 = 3932 um2
+Assumed Utilization Overhead: ~0.5%
+Total memory area: 14800 um2

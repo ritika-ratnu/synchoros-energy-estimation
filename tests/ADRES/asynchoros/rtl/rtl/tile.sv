@@ -45,7 +45,7 @@ module tile (
 
   config_mem #(
     .WORD_W (TILE_CFG_W),
-    .DEPTH  (CONTEXT_DEPTH),
+    .DEPTH  (CONFIG_DEPTH),
     .ADDR_W (CTX_ADDR_W)
   ) u_config_mem (
     .clk_i          (clk_i),

@@ -5,7 +5,8 @@ package pkg;
   localparam int TOKEN_W       = 33;
   localparam int NUM_PORTS     = 10;
   localparam int RF_DEPTH      = 16;
-  localparam int CONTEXT_DEPTH = 16;
+  localparam int CONTEXT_DEPTH = 256;
+  localparam int CONFIG_DEPTH  = 16 ;
   localparam int OP_W          = 6;
 
   localparam int RF_ADDR_W  = (RF_DEPTH <= 1) ? 1 : $clog2(RF_DEPTH);

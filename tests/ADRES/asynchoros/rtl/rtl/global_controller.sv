@@ -1,6 +1,6 @@
 // Global controller 
 module global_controller #(
-  parameter int DEPTH  = 16,
+  parameter int DEPTH  = 256,
   parameter int ADDR_W = (DEPTH <= 1) ? 1 : $clog2(DEPTH)
 ) (
   input  logic              clk_i,
