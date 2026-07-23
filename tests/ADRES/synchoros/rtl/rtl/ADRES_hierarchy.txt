@@ -1,0 +1,9 @@
+pkg.sv
+config_mem.sv
+reg_file.sv
+output_register.sv
+simple_alu.sv
+tile.sv
+global_controller.sv
+data_mem.sv
+ADRES.sv
