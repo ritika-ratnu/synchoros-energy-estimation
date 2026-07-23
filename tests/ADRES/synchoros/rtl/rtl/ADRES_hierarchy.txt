@@ -3,7 +3,14 @@ config_mem.sv
 reg_file.sv
 output_register.sv
 simple_alu.sv
-tile.sv
+tile_core.sv
+local_noc_adapter.sv
+adres_tile.sv
 global_controller.sv
 data_mem.sv
+adres_control_status.sv
+adres_tile_array.sv
+adres_endpoints.sv
+adres_memory_subsystem.sv
+adres_checks.sv
 ADRES.sv

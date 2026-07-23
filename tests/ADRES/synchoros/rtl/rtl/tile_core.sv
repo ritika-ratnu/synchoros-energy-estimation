@@ -1,4 +1,4 @@
-module tile (
+module tile_core (
   input  logic clk_i,
   input  logic rst_ni,
 
@@ -12,7 +12,7 @@ module tile (
   input  logic [pkg::CTX_ADDR_W-1:0] cfg_write_addr_i,
   input  logic [pkg::TILE_CFG_W-1:0] cfg_write_data_i,
 
-  // The array wrapper assigns the physical meaning of each of these ten links.
+  // local_noc_adapter assigns the physical meaning of these ten links.
   input  logic [pkg::NUM_PORTS-1:0]
                [pkg::TOKEN_W-1:0] port_in_i,
   output logic [pkg::NUM_PORTS-1:0]
